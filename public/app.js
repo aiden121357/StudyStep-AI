@@ -12,7 +12,10 @@ let lastQuestion = '';
 
 // One small browser-storage file: easy to replace with a real database later.
 const storage = {
-  read() { return JSON.parse(localStorage.getItem('studystep-explanations') || '[]'); },
+  read() { return JSON.parse(localStorage.getItem('studystep-explanations') || JSON.stringify([
+    { subject: 'Math', question: 'What is the area of a rectangle?', answer: 'A sample explanation will appear here after you ask a question.', date: 'sample' },
+    { subject: 'Science', question: 'Why do plants need sunlight?', answer: 'A sample explanation will appear here after you ask a question.', date: 'sample' }
+  ])); },
   add(item) { const items = [item, ...this.read()].slice(0, 10); localStorage.setItem('studystep-explanations', JSON.stringify(items)); renderSaved(); }
 };
 
