@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { askOpenAI } = require('./lib/openai');
 
 const root = __dirname;
 const port = process.env.PORT || 3000;
@@ -12,25 +13,9 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const model = 'gpt-5.6-luna';
-const systemInstructions = fs.readFileSync(path.join(root, 'BRIEF.md'), 'utf8').match(/## AI instructions[\s\S]*/)?.[0] || '';
-
 function send(res, status, body, type = 'application/json') {
   res.writeHead(status, { 'Content-Type': `${type}; charset=utf-8`, 'Cache-Control': 'no-store' });
   res.end(type === 'application/json' ? JSON.stringify(body) : body);
-}
-
-async function askOpenAI(message, subject, simpler) {
-  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'paste-your-key-here') throw new Error('missing key');
-  const prompt = `Subject: ${subject}\n${simpler ? 'Please explain the confusing step more simply.\n' : ''}Homework question:\n${message}`;
-  const response = await fetch('https://api.openai.com/v1/responses', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-    body: JSON.stringify({ model, instructions: systemInstructions, input: prompt })
-  });
-  if (!response.ok) throw new Error('OpenAI request failed');
-  const data = await response.json();
-  return data.output_text || data.output?.flatMap(x => x.content || []).map(x => x.text || '').join('') || 'I could not find an explanation. Please try again.';
 }
 
 const server = http.createServer(async (req, res) => {

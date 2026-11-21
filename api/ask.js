@@ -1,0 +1,13 @@
+const { askOpenAI } = require('../lib/openai');
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Please use POST for homework questions.' });
+  try {
+    const { message, subject, simpler } = req.body || {};
+    if (!message?.trim()) return res.status(400).json({ error: 'Please enter a homework question.' });
+    const answer = await askOpenAI(message.trim(), subject || 'General', Boolean(simpler));
+    return res.status(200).json({ answer });
+  } catch (error) {
+    return res.status(500).json({ error: 'I could not answer right now. Please check your key and internet connection, then try again.' });
+  }
+};
