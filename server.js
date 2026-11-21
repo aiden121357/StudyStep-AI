@@ -48,9 +48,11 @@ const server = http.createServer(async (req, res) => {
     });
     return;
   }
-  const requested = req.url === '/' ? '/public/index.html' : req.url;
-  const filePath = path.normalize(path.join(root, requested));
-  if (!filePath.startsWith(path.join(root, 'public'))) return send(res, 404, { error: 'Not found' });
-  fs.readFile(filePath, (err, data) => err ? send(res, 404, { error: 'Not found' }) : send(res, 200, data, path.extname(filePath) === '.css' ? 'text/css' : 'text/html'));
+  const requested = req.url === '/' ? '/index.html' : req.url;
+  const publicRoot = path.join(root, 'public');
+  const filePath = path.normalize(path.join(publicRoot, requested));
+  if (!filePath.startsWith(publicRoot)) return send(res, 404, { error: 'Not found' });
+  const types = { '.css': 'text/css', '.js': 'text/javascript', '.html': 'text/html' };
+  fs.readFile(filePath, (err, data) => err ? send(res, 404, { error: 'Not found' }) : send(res, 200, data, types[path.extname(filePath)] || 'application/octet-stream'));
 });
 server.listen(port, () => console.log(`StudyStep AI is running at http://localhost:${port}`));
