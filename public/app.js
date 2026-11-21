@@ -10,6 +10,12 @@ const savedList = document.querySelector('#savedList');
 const savedCount = document.querySelector('#savedCount');
 let lastQuestion = '';
 
+document.querySelectorAll('.subject').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('.subject').forEach(item => item.classList.remove('active'));
+  button.classList.add('active');
+  subject.value = button.dataset.subject;
+}));
+
 // One small browser-storage file: easy to replace with a real database later.
 const storage = {
   read() { return JSON.parse(localStorage.getItem('studystep-explanations') || JSON.stringify([
@@ -25,7 +31,7 @@ async function askAI(isSimpler = false) {
   ask.disabled = true; simpler.disabled = true; ask.textContent = 'Thinking…'; answer.classList.remove('hidden'); answerText.textContent = 'Thinking…';
   try { const response = await fetch('/api/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ message: isSimpler ? lastQuestion : text, subject: subject.value, simpler: isSimpler }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error); lastQuestion = text; answerText.textContent = data.answer; document.querySelector('#subjectBadge').textContent = subject.value.toUpperCase(); }
   catch (error) { answerText.textContent = error.message || 'I could not answer right now. Please check your key and internet connection, then try again.'; }
-  finally { ask.disabled = false; simpler.disabled = false; ask.innerHTML = 'Explain step by step <span>→</span>'; }
+  finally { ask.disabled = false; simpler.disabled = false; ask.innerHTML = 'Explain Step by Step <span>→</span>'; }
 }
 ask.addEventListener('click', () => askAI()); simpler.addEventListener('click', () => askAI(true));
 document.querySelector('#clear').addEventListener('click', () => { question.value=''; answer.classList.add('hidden'); });
