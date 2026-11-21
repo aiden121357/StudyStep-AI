@@ -1,0 +1,8 @@
+{
+  "name": "studystep-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A friendly step-by-step homework helper",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
