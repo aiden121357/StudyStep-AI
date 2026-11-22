@@ -35,7 +35,8 @@ const server = http.createServer(async (req, res) => {
     });
     return;
   }
-  const requested = req.url === '/' ? '/index.html' : req.url;
+  const pathname = new URL(req.url, 'http://localhost').pathname;
+  const requested = pathname === '/' ? '/index.html' : pathname;
   const publicRoot = path.join(root, 'public');
   const filePath = path.normalize(path.join(publicRoot, requested));
   if (!filePath.startsWith(publicRoot)) return send(res, 404, { error: 'Not found' });
