@@ -33,7 +33,7 @@ Start command: `npm start`
 
 ## MVP checks
 
-- Paste a homework problem and press Ask: should show Thinking… and then an explanation.
+- Paste a homework problem and press Ask: works locally; it shows Thinking… and then a step-by-step explanation. The deployed Vercel version also needs `KEYGEN_URL` and `KEYGEN_TOKEN` set in Vercel before its AI request can work.
 - Pick a subject: the answer should include that subject context.
 - Press Explain a step more simply: should return a simpler explanation.
 - Ask a real question with a working key: should return a short, safe answer; errors should suggest checking the key.
