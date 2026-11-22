@@ -14,10 +14,12 @@ Start command: `npm start`
 
 ## Put it online with Vercel
 
-- This project uses regular HTML/CSS/JavaScript in `public/` and a Vercel serverless function in `api/ask.js`.
+- `vercel.json` tells Vercel to serve the regular HTML/CSS/JavaScript in `public/`.
+- Vercel automatically runs `api/ask.js` as the small server function for `/api/ask`.
 - The local server and Vercel function share the OpenAI request code in `lib/openai.js`, which gets keys through server-only `getKey()`.
-- Import the GitHub repository into Vercel with no framework preset and keep the default project root.
-- Add `KEYGEN_URL` and `KEYGEN_TOKEN` as Vercel Environment Variables. Never put the returned OpenAI key in GitHub, source files, or browser code.
+- Import the GitHub repository into Vercel, keep the default project root, and choose the `Other` framework preset if Vercel asks.
+- Add exactly two Vercel Environment Variables: `KEYGEN_URL` and `KEYGEN_TOKEN`. Never add `OPENAI_API_KEY`; the server gets the returned key through `getKey()`.
+- No build command, database, or other environment variable is needed for this project.
 - Deploy. Vercel will serve the page and make `/api/ask` available automatically.
 - Browser saves continue to use localStorage, so saved explanations stay on each device.
 
