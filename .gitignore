@@ -1,5 +1,7 @@
-node_modules
+node_modules/
+.env
 .env*
-.vercel
-.expo
+.vercel/
+.expo/
 .DS_Store
+.codex-tools/
