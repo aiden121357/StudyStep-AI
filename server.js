@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { askOpenAI } = require('./lib/openai');
+const { KeygenError } = require('./server/getKey');
 
 const root = __dirname;
 const port = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ const server = http.createServer(async (req, res) => {
         const answer = await askOpenAI(message.trim(), subject || 'General', Boolean(simpler));
         send(res, 200, { answer });
       } catch (error) {
+        if (error instanceof KeygenError) return send(res, error.status, { error: error.message });
         send(res, 500, { error: 'I could not answer right now. Please check your key and internet connection, then try again.' });
       }
     });
