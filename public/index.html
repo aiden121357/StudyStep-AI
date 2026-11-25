@@ -98,6 +98,11 @@
         </div>
         <div id="answerText" class="answer-text"></div>
         <p id="stepHint" class="step-hint">Click a numbered step, then choose “Explain More Simply.”</p>
+        <div id="simplerPromptWrap" class="simpler-prompt hidden">
+          <label class="field-label" for="simplerPrompt">WHAT IS CONFUSING ABOUT THIS STEP?</label>
+          <textarea id="simplerPrompt" maxlength="400" rows="2" placeholder="For example: Why do we multiply by 8?"></textarea>
+          <p class="prompt-note">Optional—your note helps the AI focus its explanation.</p>
+        </div>
         <div class="answer-actions">
           <button id="simpler" class="secondary" type="button" disabled>☷ Explain More Simply</button>
           <button id="save" class="secondary" type="button" disabled>♡ Save Explanation</button>

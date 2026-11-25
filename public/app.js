@@ -5,6 +5,8 @@ const assistantForm = document.querySelector('#assistantForm');
 const answer = document.querySelector('#answer');
 const answerText = document.querySelector('#answerText');
 const stepHint = document.querySelector('#stepHint');
+const simplerPromptWrap = document.querySelector('#simplerPromptWrap');
+const simplerPrompt = document.querySelector('#simplerPrompt');
 const subjectBadge = document.querySelector('#subjectBadge');
 const simpler = document.querySelector('#simpler');
 const save = document.querySelector('#save');
@@ -66,6 +68,8 @@ function renderAnswer(rawAnswer) {
 
   const introHTML = intro.map(line => `<p>${formatInline(line)}</p>`).join('');
   selectedStep = '';
+  simplerPrompt.value = '';
+  simplerPromptWrap.classList.add('hidden');
   stepHint.classList.remove('needs-selection');
   stepHint.textContent = 'Click a numbered step, then choose “Explain More Simply.”';
   const stepsHTML = steps.length
@@ -152,7 +156,13 @@ async function askAI(isSimpler = false) {
     const response = await fetch('/api/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, subject: subject.value, simpler: isSimpler, focusStep: isSimpler ? selectedStep : '' })
+      body: JSON.stringify({
+        message,
+        subject: subject.value,
+        simpler: isSimpler,
+        focusStep: isSimpler ? selectedStep : '',
+        focusNote: isSimpler ? simplerPrompt.value.trim() : ''
+      })
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
@@ -186,6 +196,7 @@ answerText.addEventListener('click', event => {
   });
   stepHint.classList.remove('needs-selection');
   stepHint.textContent = 'Step selected. Click Explain More Simply.';
+  simplerPromptWrap.classList.remove('hidden');
 });
 
 document.querySelectorAll('.subject-category, .math-level').forEach(button => {
@@ -204,6 +215,8 @@ clear.addEventListener('click', () => {
   lastQuestion = '';
   lastAnswer = '';
   selectedStep = '';
+  simplerPrompt.value = '';
+  simplerPromptWrap.classList.add('hidden');
   subjectBadge.textContent = '';
   answerText.innerHTML = '';
   stepHint.classList.remove('needs-selection');

@@ -111,6 +111,10 @@ textarea:focus { border-color: #9e94f4; box-shadow: 0 0 0 4px rgba(104, 86, 232,
 .step-choice.selected { border-color: #a29af1; color: var(--ink); background: var(--lavender); box-shadow: 0 4px 12px rgba(104, 86, 232, .09); }
 .step-hint { margin: 18px 0 0; color: var(--muted); font-size: 13px; }
 .step-hint.needs-selection { color: #a43d52; font-weight: 700; }
+.simpler-prompt { margin-top: 18px; padding: 16px 18px; border: 1px solid #e3defd; border-radius: 14px; background: #faf9ff; }
+.simpler-prompt .field-label { margin-top: 0; }
+.simpler-prompt textarea { min-height: 70px; background: #fff; }
+.prompt-note { margin: 7px 0 0; color: #8a95a8; font-size: 12px; }
 .answer-text code { padding: 2px 5px; border-radius: 5px; color: #493bb5; background: var(--lavender); font-size: .92em; }
 .loading-copy { color: var(--purple); font-weight: 700; }
 .error-copy { padding: 13px 15px; border: 1px solid #f0c8d0; border-radius: 10px; color: #a43d52; background: #fff5f6; }
