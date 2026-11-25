@@ -37,6 +37,7 @@ Start command: `npm start`
 - Pick a subject: the answer should include that subject context.
 - Press Explain a step more simply: should return a simpler explanation.
 - Ask a real question with a working key: should return a short, safe answer; errors should suggest checking the key.
+- Verified November 24, 2026: the local page and AI explanation work end to end. The live page loads, but Vercel AI requests still need `KEYGEN_URL` and `KEYGEN_TOKEN` added in Vercel.
 
 ## Maybe Later
 
