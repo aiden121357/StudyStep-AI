@@ -64,12 +64,20 @@
 
           <span class="field-label">SUBJECT</span>
           <div class="subjects" role="group" aria-label="Choose a subject">
-            <button type="button" class="subject active" data-subject="Math" aria-pressed="true"><span>∑</span>Math</button>
-            <button type="button" class="subject" data-subject="Science" aria-pressed="false"><span>⚛</span>Science</button>
-            <button type="button" class="subject" data-subject="English" aria-pressed="false"><span>Aa</span>English</button>
-            <button type="button" class="subject" data-subject="History" aria-pressed="false"><span>◷</span>History</button>
+            <button type="button" class="subject subject-category active" data-subject="Math" aria-pressed="true"><span>∑</span>Math</button>
+            <button type="button" class="subject subject-category" data-subject="Science" aria-pressed="false"><span>⚛</span>Science</button>
+            <button type="button" class="subject subject-category" data-subject="English" aria-pressed="false"><span>Aa</span>English</button>
+            <button type="button" class="subject subject-category" data-subject="History" aria-pressed="false"><span>◷</span>History</button>
           </div>
-          <input type="hidden" id="subject" value="Math">
+          <div id="mathLevels" class="math-levels">
+            <span class="field-label">MATH LEVEL</span>
+            <div class="subjects" role="group" aria-label="Choose a math level">
+              <button type="button" class="subject math-level active" data-subject="Math — Algebra 1" aria-pressed="true">Algebra 1</button>
+              <button type="button" class="subject math-level" data-subject="Math — Algebra 2" aria-pressed="false">Algebra 2</button>
+              <button type="button" class="subject math-level" data-subject="Math — Calculus" aria-pressed="false">Calculus</button>
+            </div>
+          </div>
+          <input type="hidden" id="subject" value="Math — Algebra 1">
 
           <label class="field-label" for="question">YOUR HOMEWORK QUESTION</label>
           <textarea id="question" maxlength="2000" placeholder="Paste a problem or question here..." required></textarea>

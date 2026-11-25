@@ -83,6 +83,8 @@ button { -webkit-tap-highlight-color: transparent; }
 .sparkle-badge { display: grid; place-items: center; width: 55px; height: 55px; border-radius: 15px; color: var(--purple); background: var(--lavender); font-size: 36px; }
 .field-label { display: block; margin: 19px 0 11px; color: #707c94; font-size: 11px; font-weight: 800; letter-spacing: 1.2px; }
 .subjects { display: flex; gap: 10px; margin-bottom: 25px; }
+.math-levels { margin-top: -6px; }
+.math-levels .field-label { margin-top: 0; }
 .subject { flex: 1; border: 1px solid var(--line); border-radius: 10px; padding: 13px; color: var(--muted); background: #fff; font-weight: 700; cursor: pointer; transition: .2s; }
 .subject span { margin-right: 7px; color: var(--purple); font-weight: 800; }
 .subject.active, .subject:hover, .subject:focus-visible { border-color: #9e94f4; color: var(--purple); background: var(--lavender); box-shadow: 0 5px 14px rgba(104, 86, 232, .09); }

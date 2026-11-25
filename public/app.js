@@ -12,6 +12,7 @@ const saved = document.querySelector('#saved');
 const savedList = document.querySelector('#savedList');
 const savedCount = document.querySelector('#savedCount');
 const questionCount = document.querySelector('#questionCount');
+const mathLevels = document.querySelector('#mathLevels');
 const storageKey = 'studystep-explanations';
 
 let lastQuestion = '';
@@ -94,9 +95,19 @@ function renderSaved() {
 }
 
 function setSubject(value) {
-  subject.value = value;
-  document.querySelectorAll('.subject').forEach(button => {
-    const active = button.dataset.subject === value;
+  const isMath = value === 'Math' || value.startsWith('Math — ');
+  const selectedValue = value === 'Math'
+    ? (subject.value.startsWith('Math — ') ? subject.value : 'Math — Algebra 1')
+    : value;
+  subject.value = selectedValue;
+  document.querySelectorAll('.subject-category').forEach(button => {
+    const active = isMath ? button.dataset.subject === 'Math' : button.dataset.subject === selectedValue;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  mathLevels.classList.toggle('hidden', !isMath);
+  document.querySelectorAll('.math-level').forEach(button => {
+    const active = isMath && button.dataset.subject === selectedValue;
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   });
@@ -154,7 +165,7 @@ async function askAI(isSimpler = false) {
   }
 }
 
-document.querySelectorAll('.subject').forEach(button => {
+document.querySelectorAll('.subject-category, .math-level').forEach(button => {
   button.addEventListener('click', () => setSubject(button.dataset.subject));
 });
 
