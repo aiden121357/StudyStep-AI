@@ -4,6 +4,7 @@ const ask = document.querySelector('#ask');
 const assistantForm = document.querySelector('#assistantForm');
 const answer = document.querySelector('#answer');
 const answerText = document.querySelector('#answerText');
+const stepHint = document.querySelector('#stepHint');
 const subjectBadge = document.querySelector('#subjectBadge');
 const simpler = document.querySelector('#simpler');
 const save = document.querySelector('#save');
@@ -18,6 +19,7 @@ const storageKey = 'studystep-explanations';
 let lastQuestion = '';
 let lastSubject = 'Math';
 let lastAnswer = '';
+let selectedStep = '';
 
 function escapeHTML(value) {
   return String(value).replace(/[&<>'"]/g, character => ({
@@ -63,8 +65,11 @@ function renderAnswer(rawAnswer) {
   }
 
   const introHTML = intro.map(line => `<p>${formatInline(line)}</p>`).join('');
+  selectedStep = '';
+  stepHint.classList.remove('needs-selection');
+  stepHint.textContent = 'Click a numbered step, then choose “Explain More Simply.”';
   const stepsHTML = steps.length
-    ? `<h3>Steps</h3><ol>${steps.map(step => `<li>${formatInline(step)}</li>`).join('')}</ol>`
+    ? `<h3>Steps</h3><ol>${steps.map((step, index) => `<li><button type="button" class="step-choice" data-step-index="${index}" aria-pressed="false" aria-label="Select step ${index + 1} to explain more simply">${formatInline(step)}</button></li>`).join('')}</ol>`
     : '';
   answerText.innerHTML = introHTML + stepsHTML;
 }
@@ -124,6 +129,11 @@ function updateQuestionCount() {
 
 async function askAI(isSimpler = false) {
   const text = question.value.trim();
+  if (isSimpler && !selectedStep) {
+    stepHint.classList.add('needs-selection');
+    stepHint.textContent = 'Select a numbered step first, then click Explain More Simply.';
+    return;
+  }
   const message = isSimpler ? lastQuestion : text;
   if (!message) {
     question.focus();
@@ -142,7 +152,7 @@ async function askAI(isSimpler = false) {
     const response = await fetch('/api/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, subject: subject.value, simpler: isSimpler })
+      body: JSON.stringify({ message, subject: subject.value, simpler: isSimpler, focusStep: isSimpler ? selectedStep : '' })
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
@@ -165,6 +175,19 @@ async function askAI(isSimpler = false) {
   }
 }
 
+answerText.addEventListener('click', event => {
+  const stepButton = event.target.closest('.step-choice');
+  if (!stepButton) return;
+  selectedStep = stepButton.textContent.trim();
+  document.querySelectorAll('.step-choice').forEach(button => {
+    const active = button === stepButton;
+    button.classList.toggle('selected', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  stepHint.classList.remove('needs-selection');
+  stepHint.textContent = 'Step selected. Click Explain More Simply.';
+});
+
 document.querySelectorAll('.subject-category, .math-level').forEach(button => {
   button.addEventListener('click', () => setSubject(button.dataset.subject));
 });
@@ -180,8 +203,11 @@ clear.addEventListener('click', () => {
   question.value = '';
   lastQuestion = '';
   lastAnswer = '';
+  selectedStep = '';
   subjectBadge.textContent = '';
   answerText.innerHTML = '';
+  stepHint.classList.remove('needs-selection');
+  stepHint.textContent = 'Click a numbered step, then choose “Explain More Simply.”';
   answer.classList.add('hidden');
   setAnswerActions(false);
   updateQuestionCount();

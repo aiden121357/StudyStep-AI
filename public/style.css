@@ -106,6 +106,11 @@ textarea:focus { border-color: #9e94f4; box-shadow: 0 0 0 4px rgba(104, 86, 232,
 .answer-text ol { margin: 0; padding-left: 28px; }
 .answer-text li { margin: 0 0 12px; padding-left: 7px; }
 .answer-text li::marker { color: var(--purple); font-weight: 800; }
+.step-choice { display: block; width: 100%; border: 1px solid transparent; border-radius: 9px; padding: 7px 9px; color: inherit; background: transparent; text-align: left; cursor: pointer; line-height: 1.6; }
+.step-choice:hover, .step-choice:focus-visible { border-color: #d9d3ff; background: var(--lavender); }
+.step-choice.selected { border-color: #a29af1; color: var(--ink); background: var(--lavender); box-shadow: 0 4px 12px rgba(104, 86, 232, .09); }
+.step-hint { margin: 18px 0 0; color: var(--muted); font-size: 13px; }
+.step-hint.needs-selection { color: #a43d52; font-weight: 700; }
 .answer-text code { padding: 2px 5px; border-radius: 5px; color: #493bb5; background: var(--lavender); font-size: .92em; }
 .loading-copy { color: var(--purple); font-weight: 700; }
 .error-copy { padding: 13px 15px; border: 1px solid #f0c8d0; border-radius: 10px; color: #a43d52; background: #fff5f6; }
